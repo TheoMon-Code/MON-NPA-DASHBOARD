@@ -27,8 +27,13 @@ Add/edit values directly in the Google Sheet "NPA KPI" tab: one row per KPI, one
 2. Duplicate any `npa_*.html` file, rename it, and edit only the `var ROW=...` line plus the bilingual TH/EN title/definition/calculation/target strings (all clearly marked near the top of the `<script>` block).
 3. Add one entry to the `KPI_CFG` array in both `index.html` and `npa_index.html` (row name, TH/EN labels, category `sp`/`q`/`o`, filename).
 
+## Logos
+
+`mon-logo.png` and `purina-logo.png` sit next to the HTML files and are loaded by plain relative path (`<img src="mon-logo.png">`) -- not embedded as base64 anymore. To update a logo, just replace the PNG file with the same name (keep it transparent-background) -- every page picks it up automatically, nothing to regenerate.
+
 ## Files
 
+- `mon-logo.png`, `purina-logo.png` -- header logos, referenced by every page
 - `index.html`, `npa_index.html` -- dashboard home (identical content, kept for backward-compatible links)
 - `npa_safety.html`, `npa_care_compliance.html`, `npa_open_vacancy.html`, `npa_turnover.html`, `npa_damage.html`, `npa_complaint.html`, `npa_dispatch.html`, `npa_ira.html`, `npa_truck.html` -- original 9 KPIs
 - `npa_because_we_care.html`, `npa_safety_tag.html`, `npa_near_miss.html`, `npa_safer_easier.html`, `npa_legal_compliance.html`, `npa_grow_coaching.html`, `npa_manpower_fulfill.html` -- 7 new KPIs added August 2026
