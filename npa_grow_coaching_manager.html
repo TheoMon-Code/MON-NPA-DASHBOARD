@@ -33,7 +33,7 @@ body { min-height:100vh; background:var(--bg); font-family:'Inter',sans-serif; c
 .hdr-site { display:flex; flex-direction:column; gap:1px; }
 .hdr-site-label { font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:rgba(0,73,144,0.55); }
 .hdr-site-name  { font-size:13px; font-weight:600; color:#04355E; }
-.hdr-logo-purina { height:26px; width:auto; }
+.hdr-logo-purina { height:40px; width:auto; }
 .hdr-back { display:flex; align-items:center; gap:5px; font-size:12px; font-weight:500; color:rgba(0,73,144,0.7); text-decoration:none; padding:5px 12px; border-radius:5px; border:1px solid rgba(0,73,144,0.22); transition:all 0.15s; }
 .hdr-back:hover { background:rgba(0,73,144,0.08); color:#004990; }
 .lang-wrap { display:flex; background:rgba(0,73,144,0.08); border-radius:20px; padding:2px; }
@@ -472,6 +472,27 @@ fetch(CSV_URL)
   }
   function exitTV(){ location.href=location.pathname; }
   window.startTVMode=function(){ location.href=curFile()+'?tv=1'; };
+  function fitToScreen(){
+    document.body.style.zoom='';
+    var full=document.documentElement.scrollHeight;
+    var avail=window.innerHeight;
+    if(!full||!avail) return;
+    var ratio=avail/full;
+    ratio=Math.min(1,Math.max(0.55,ratio));
+    document.body.style.zoom=ratio;
+  }
+  function waitAndFit(){
+    var tries=0;
+    var iv=setInterval(function(){
+      tries++;
+      var lo=document.getElementById('loader');
+      var loaded=!lo||lo.style.display==='none';
+      if(loaded||tries>40){
+        clearInterval(iv);
+        setTimeout(fitToScreen,150);
+      }
+    },150);
+  }
   var qs=new URLSearchParams(location.search);
   if(qs.get('tv')==='1'){
     document.body.classList.add('tv-mode');
@@ -488,6 +509,8 @@ fetch(CSV_URL)
       if(cEl) cEl.textContent=Math.max(remain,0)+'s';
       if(remain<=0){ clearInterval(iv); goNext(); }
     },1000);
+    waitAndFit();
+    window.addEventListener('resize',fitToScreen);
   }
 })();
 </script>

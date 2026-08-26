@@ -33,7 +33,7 @@ body { min-height:100vh; background:var(--bg); font-family:'Inter',sans-serif; c
 .hdr-site { display:flex; flex-direction:column; gap:1px; }
 .hdr-site-label { font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:rgba(0,73,144,0.55); }
 .hdr-site-name  { font-size:13px; font-weight:600; color:#04355E; }
-.hdr-logo-purina { height:26px; width:auto; }
+.hdr-logo-purina { height:40px; width:auto; }
 .hdr-back { display:flex; align-items:center; gap:5px; font-size:12px; font-weight:500; color:rgba(0,73,144,0.7); text-decoration:none; padding:5px 12px; border-radius:5px; border:1px solid rgba(0,73,144,0.22); transition:all 0.15s; }
 .hdr-back:hover { background:rgba(0,73,144,0.08); color:#004990; }
 .lang-wrap { display:flex; background:rgba(0,73,144,0.08); border-radius:20px; padding:2px; }
@@ -170,11 +170,6 @@ body { min-height:100vh; background:var(--bg); font-family:'Inter',sans-serif; c
 body.tv-mode .hdr-back { visibility:hidden; }
 body.tv-mode .tv-btn { display:none; }
 
-/* ── ALERT BANNER ── */
-.alert-banner { display:none; align-items:center; gap:12px; margin:16px 48px 0; padding:10px 20px; background:var(--red-bg); border:1px solid rgba(211,26,43,0.3); border-left:4px solid var(--red); border-radius:6px; }
-.alert-icon { font-size:16px; color:var(--red); }
-.alert-text { font-size:13px; font-weight:600; color:var(--red); }
-
 /* ── SPARKLINE ── */
 .kcard-spark { padding:6px 18px 4px; background:var(--card); }
 .kcard-spark svg { width:100%; height:26px; display:block; }
@@ -217,7 +212,6 @@ body.tv-mode .tv-btn { display:none; }
     <div><div class="clock" id="clk">00:00:00</div><div class="clock-date" id="clkd">—</div></div>
   </div>
 </div>
-<div class="alert-banner" id="alertBanner"><div class="alert-icon">⚠</div><div class="alert-text" id="alertText"></div></div>
 <div class="body">
   <div class="slabel" id="lbl-sp">Safety & People</div>
   <div class="grid" id="g-sp"></div>
@@ -357,7 +351,6 @@ function sparkline(vals, st) {
 function renderIndex(data) {
   allData = data;
   var ok=0,warn=0,bad=0,period='';
-  var badNames=[];
   ['g-sp','g-q','g-o'].forEach(function(id){ document.getElementById(id).innerHTML=''; });
 
   KPI_CFG.forEach(function(c) {
@@ -373,7 +366,6 @@ function renderIndex(data) {
     var stlbl=(ST_LABELS[currentLang]||ST_LABELS.en)[st]||st;
     var hist=MN.map(function(m){return pv(kpi[m]);});
     var spark=sparkline(hist,st);
-    if(st==='bad') badNames.push(name);
 
     var card='<a href="'+c.file+'" class="kcard">'+
       '<div class="kcard-hdr">'+
@@ -391,14 +383,6 @@ function renderIndex(data) {
   var s=document.getElementById('s-ok');   if(s) s.textContent=ok;
   var w=document.getElementById('s-warn'); if(w) w.textContent=warn;
   var b=document.getElementById('s-bad');  if(b) b.textContent=bad;
-
-  var ab=document.getElementById('alertBanner'), at=document.getElementById('alertText');
-  if(ab&&at){
-    if(badNames.length){
-      ab.style.display='flex';
-      at.textContent=(currentLang==='th'?'ต้องดำเนินการ: ':'Action needed: ')+badNames.join(' · ');
-    } else { ab.style.display='none'; }
-  }
 
   if(period) {
     var mth=currentLang==='th'?(MTH[period]||period):period;
@@ -436,6 +420,27 @@ fetch(CSV_URL)
   }
   function exitTV(){ location.href=location.pathname; }
   window.startTVMode=function(){ location.href=curFile()+'?tv=1'; };
+  function fitToScreen(){
+    document.body.style.zoom='';
+    var full=document.documentElement.scrollHeight;
+    var avail=window.innerHeight;
+    if(!full||!avail) return;
+    var ratio=avail/full;
+    ratio=Math.min(1,Math.max(0.55,ratio));
+    document.body.style.zoom=ratio;
+  }
+  function waitAndFit(){
+    var tries=0;
+    var iv=setInterval(function(){
+      tries++;
+      var lo=document.getElementById('loader');
+      var loaded=!lo||lo.style.display==='none';
+      if(loaded||tries>40){
+        clearInterval(iv);
+        setTimeout(fitToScreen,150);
+      }
+    },150);
+  }
   var qs=new URLSearchParams(location.search);
   if(qs.get('tv')==='1'){
     document.body.classList.add('tv-mode');
@@ -452,6 +457,8 @@ fetch(CSV_URL)
       if(cEl) cEl.textContent=Math.max(remain,0)+'s';
       if(remain<=0){ clearInterval(iv); goNext(); }
     },1000);
+    waitAndFit();
+    window.addEventListener('resize',fitToScreen);
   }
 })();
 </script>
