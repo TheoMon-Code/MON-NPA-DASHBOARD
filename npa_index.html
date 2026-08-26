@@ -231,7 +231,7 @@ var CSV_URL = 'https://docs.google.com/spreadsheets/d/1Dr2jq7Hp00L_HKQfQ7eiSXCwS
 var MN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 var MS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var MTH = {January:'มกราคม',February:'กุมภาพันธ์',March:'มีนาคม',April:'เมษายน',May:'พฤษภาคม',June:'มิถุนายน',July:'กรกฎาคม',August:'สิงหาคม',September:'กันยายน',October:'ตุลาคม',November:'พฤศจิกายน',December:'ธันวาคม'};
-var LB  = ['Safety incidents','Property Damage','Complaints','Dispatch Errors'];
+var LB  = ['Safety incidents','Property Damage','Complaints','Dispatch Errors','Care Compliance'];
 var INF = ['Turnover Rate','Truck Turn'];
 var currentLang = 'th';
 
@@ -361,7 +361,8 @@ function renderIndex(data) {
     if(L.m&&!period) period=L.m;
 
     var raw=L.m?(kpi[L.m]||'—'):'—';
-    var tstr=kpi['Target']?(kpi['Target']+(unit&&unit!=='%'?' '+unit:'')):'—';
+    var tgtNum=pv(kpi['Target']);
+    var tstr=tgtNum!==null?(kpi['Target']+(unit&&unit!=='%'?' '+unit:'')):'—';
     var name=currentLang==='th'?c.th:c.en;
     var stlbl=(ST_LABELS[currentLang]||ST_LABELS.en)[st]||st;
     var hist=MN.map(function(m){return pv(kpi[m]);});

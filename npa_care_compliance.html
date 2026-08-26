@@ -224,7 +224,7 @@ body.tv-mode .tv-btn { display:none; }
     <div class="icard">
       <div class="irow"><span class="ilbl" id="lbl-def-t">นิยาม:</span><span class="itxt" id="lbl-def">การปฏิบัติตามข้อกำหนด Care Compliance ของ Nestlé</span></div>
       <div class="irow"><span class="ilbl" id="lbl-calc-t">การคำนวณ:</span><span class="itxt" id="lbl-calc">จำนวนกรณีที่ไม่ปฏิบัติตาม Care Compliance (กรณี)</span></div>
-      <div class="irow"><span class="ilbl" id="lbl-tgt-t">เป้าหมาย:</span><span class="itxt" id="lbl-tgt">100% — รายเดือน</span></div>
+      <div class="irow"><span class="ilbl" id="lbl-tgt-t">เป้าหมาย:</span><span class="itxt" id="lbl-tgt">0 กรณี — รายเดือน</span></div>
     </div>
   </div>
   <div>
@@ -248,7 +248,7 @@ var CSV_URL = 'https://docs.google.com/spreadsheets/d/1Dr2jq7Hp00L_HKQfQ7eiSXCwS
 var MN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 var MS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var MTH = {January:'มกราคม',February:'กุมภาพันธ์',March:'มีนาคม',April:'เมษายน',May:'พฤษภาคม',June:'มิถุนายน',July:'กรกฎาคม',August:'สิงหาคม',September:'กันยายน',October:'ตุลาคม',November:'พฤศจิกายน',December:'ธันวาคม'};
-var LB  = ['Safety incidents','Property Damage','Complaints','Dispatch Errors'];
+var LB  = ['Safety incidents','Property Damage','Complaints','Dispatch Errors','Care Compliance'];
 var INF = ['Turnover Rate','Truck Turn'];
 var currentLang = 'th';
 
@@ -377,7 +377,7 @@ function buildTable(kpi,unit) {
     var v=pv(raw), t=pv(kpi['Target']);
     var c=v!==null?getBarColor(ROW,v,t):'';
     var cc=c==='green'?'td-g':(c==='red'?'td-r':(c==='amber'?'td-a':'td-e'));
-    h+='<tr><td>'+MS[i]+' 2026</td><td class="'+cc+'">'+(raw||'—')+'</td><td>'+(kpi['Target']||'—')+'</td></tr>';
+    h+='<tr><td>'+MS[i]+' 2026</td><td class="'+cc+'">'+(raw||'—')+'</td><td>'+(t!==null?kpi['Target']:'—')+'</td></tr>';
   }
   return h+'</table>';
 }
@@ -394,7 +394,7 @@ function buildVS(kpi,unit) {
     '<div class="vitems">'+
     '<div class="vitem"><div class="vitem-n" id="vs-n1">ค่าปัจจุบัน</div><div class="vitem-p">ก่อน: '+fv(P.v,unit)+'</div><div class="vitem-v '+cls+'">'+arrow+' '+fv(L.v,unit)+'</div></div>'+
     '<div class="vitem"><div class="vitem-n" id="vs-n2">การเปลี่ยนแปลง</div><div class="vitem-p">vs เดือนก่อน</div><div class="vitem-v '+cls+'">'+arrow+' '+diffStr+'</div></div>'+
-    '<div class="vitem"><div class="vitem-n" id="vs-n3">เป้าหมาย</div><div class="vitem-p">—</div><div class="vitem-v same">'+(kpi['Target']||'—')+'</div></div>'+
+    '<div class="vitem"><div class="vitem-n" id="vs-n3">เป้าหมาย</div><div class="vitem-p">—</div><div class="vitem-v same">'+(pv(kpi['Target'])!==null?kpi['Target']:'—')+'</div></div>'+
     '</div></div>';
 }
 
@@ -430,7 +430,7 @@ function onLangChange(lang) {
       'sec-def':'นิยามและการคำนวณ',
       'lbl-def-t':'นิยาม:','lbl-def':'การปฏิบัติตามข้อกำหนด Care Compliance ของ Nestlé',
       'lbl-calc-t':'การคำนวณ:','lbl-calc':'จำนวนกรณีที่ไม่ปฏิบัติตาม Care Compliance (กรณี)',
-      'lbl-tgt-t':'เป้าหมาย:','lbl-tgt':'100% — รายเดือน',
+      'lbl-tgt-t':'เป้าหมาย:','lbl-tgt':'0 กรณี — รายเดือน',
       'sec-trend':'แนวโน้ม 2026','sec-table':'ข้อมูลรายเดือน',
       'th-m':'เดือน','th-v':'ค่า','th-t':'เป้าหมาย',
       'vs-n1':'ค่าปัจจุบัน','vs-n2':'การเปลี่ยนแปลง','vs-n3':'เป้าหมาย'
@@ -442,7 +442,7 @@ function onLangChange(lang) {
       'sec-def':'Definition & Calculation',
       'lbl-def-t':'Definition:','lbl-def':'Compliance with Nestlé care compliance requirements.',
       'lbl-calc-t':'Calculation:','lbl-calc':'Number of cases not complied with care compliance (case)',
-      'lbl-tgt-t':'Target:','lbl-tgt':'100% — Monthly',
+      'lbl-tgt-t':'Target:','lbl-tgt':'0 case — Monthly',
       'sec-trend':'2026 Trend','sec-table':'Monthly Data',
       'th-m':'Month','th-v':'Value','th-t':'Target',
       'vs-n1':'Current','vs-n2':'Change','vs-n3':'Target'
