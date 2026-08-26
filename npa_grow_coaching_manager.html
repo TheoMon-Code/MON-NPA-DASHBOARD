@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Manpower Fulfill Rate — NPA KPI</title>
+<title>Grow Coaching (Manager) — NPA KPI</title>
 <link rel="icon" href="data:image/x-icon;base64,AAABAAEAAQEAAAEAGAAwAAAAFgAAACgAAAABAAAAAgAAAAEAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIuv6QAAAAA=">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -208,7 +208,7 @@ body.tv-mode .tv-btn { display:none; }
 <div class="kpi-title-bar">
   <div class="kpi-title-left">
     <div class="kpi-cat-lbl" id="kpi-cat">NPA Amata | HR</div>
-    <div class="kpi-title" id="kpi-title"><strong>Manpower Fulfill Rate</strong></div>
+    <div class="kpi-title" id="kpi-title"><strong>Grow Coaching (ผู้จัดการ)</strong></div>
   </div>
   <div class="kpi-title-right">
     <div class="kpi-hero">
@@ -222,9 +222,9 @@ body.tv-mode .tv-btn { display:none; }
   <div>
     <div class="slabel" id="sec-def">นิยามและการคำนวณ</div>
     <div class="icard">
-      <div class="irow"><span class="ilbl" id="lbl-def-t">นิยาม:</span><span class="itxt" id="lbl-def">การจัดกำลังคนจริงเทียบกับแผนต่อกะ</span></div>
-      <div class="irow"><span class="ilbl" id="lbl-calc-t">การคำนวณ:</span><span class="itxt" id="lbl-calc">(กำลังคนจริงต่อกะ ÷ กำลังคนตามแผน) x 100 — หมายเหตุ: อัตรามาปฏิบัติงานต่ำกว่า 90% จะไม่ได้รับ OT</span></div>
-      <div class="irow"><span class="ilbl" id="lbl-tgt-t">เป้าหมาย:</span><span class="itxt" id="lbl-tgt">≥ 98% — รายกะ</span></div>
+      <div class="irow"><span class="ilbl" id="lbl-def-t">นิยาม:</span><span class="itxt" id="lbl-def">การโค้ชด้วยโมเดล GROW สำหรับผู้จัดการ: 2 หัวข้อต่อเดือน</span></div>
+      <div class="irow"><span class="ilbl" id="lbl-calc-t">การคำนวณ:</span><span class="itxt" id="lbl-calc">% ของเซสชันโค้ช GROW สำหรับผู้จัดการที่วางแผนไว้ซึ่งดำเนินการเสร็จในเดือนนั้น</span></div>
+      <div class="irow"><span class="ilbl" id="lbl-tgt-t">เป้าหมาย:</span><span class="itxt" id="lbl-tgt">100% — รายเดือน (2 หัวข้อ/เดือน)</span></div>
     </div>
   </div>
   <div>
@@ -345,7 +345,7 @@ function tick() {
 setInterval(tick,1000); tick();
 setTimeout(function(){location.reload();},3600000);
 
-var ROW='Manpower Fulfill Rate', TTH='Manpower Fulfill Rate', TEN='Manpower Fulfill Rate', CTH='NPA Amata | HR', CEN='NPA Amata | HR';
+var ROW='Grow Coaching Manager', TTH='Grow Coaching (ผู้จัดการ)', TEN='Grow Coaching (Manager)', CTH='NPA Amata | HR', CEN='NPA Amata | HR';
 
 function buildChart(kpi,unit) {
   var tgt=pv(kpi['Target']), vals=MN.map(function(m){return pv(kpi[m]);});
@@ -428,9 +428,9 @@ function onLangChange(lang) {
       'kpi-cat':CTH,'kpi-title':'<strong>'+TTH+'</strong>',
       'hero-label':'ข้อมูลล่าสุด','lbl-vs':'เทียบเดือนที่แล้ว',
       'sec-def':'นิยามและการคำนวณ',
-      'lbl-def-t':'นิยาม:','lbl-def':'การจัดกำลังคนจริงเทียบกับแผนต่อกะ',
-      'lbl-calc-t':'การคำนวณ:','lbl-calc':'(กำลังคนจริงต่อกะ ÷ กำลังคนตามแผน) x 100 — หมายเหตุ: อัตรามาปฏิบัติงานต่ำกว่า 90% จะไม่ได้รับ OT',
-      'lbl-tgt-t':'เป้าหมาย:','lbl-tgt':'≥ 98% — รายกะ',
+      'lbl-def-t':'นิยาม:','lbl-def':'การโค้ชด้วยโมเดล GROW สำหรับผู้จัดการ: 2 หัวข้อต่อเดือน',
+      'lbl-calc-t':'การคำนวณ:','lbl-calc':'% ของเซสชันโค้ช GROW สำหรับผู้จัดการที่วางแผนไว้ซึ่งดำเนินการเสร็จในเดือนนั้น',
+      'lbl-tgt-t':'เป้าหมาย:','lbl-tgt':'100% — รายเดือน (2 หัวข้อ/เดือน)',
       'sec-trend':'แนวโน้ม 2026','sec-table':'ข้อมูลรายเดือน',
       'th-m':'เดือน','th-v':'ค่า','th-t':'เป้าหมาย',
       'vs-n1':'ค่าปัจจุบัน','vs-n2':'การเปลี่ยนแปลง','vs-n3':'เป้าหมาย'
@@ -440,9 +440,9 @@ function onLangChange(lang) {
       'kpi-cat':CEN,'kpi-title':'<strong>'+TEN+'</strong>',
       'hero-label':'Latest Data','lbl-vs':'vs. last month',
       'sec-def':'Definition & Calculation',
-      'lbl-def-t':'Definition:','lbl-def':'Actual manpower per shift vs planned headcount.',
-      'lbl-calc-t':'Calculation:','lbl-calc':'(Actual manpower per shift ÷ Planned manpower per shift) x 100 — Note: show-up rate below 90% is not eligible for OT',
-      'lbl-tgt-t':'Target:','lbl-tgt':'≥ 98% — Shiftly',
+      'lbl-def-t':'Definition:','lbl-def':'GROW-model coaching for Managers: 2 topics per month.',
+      'lbl-calc-t':'Calculation:','lbl-calc':'% of planned Manager GROW coaching sessions completed that month',
+      'lbl-tgt-t':'Target:','lbl-tgt':'100% — Monthly (2 topics/month)',
       'sec-trend':'2026 Trend','sec-table':'Monthly Data',
       'th-m':'Month','th-v':'Value','th-t':'Target',
       'vs-n1':'Current','vs-n2':'Change','vs-n3':'Target'
