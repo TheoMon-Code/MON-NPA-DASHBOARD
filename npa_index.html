@@ -54,6 +54,7 @@ body { min-height:100vh; background:var(--bg); font-family:'Inter',sans-serif; c
 .spill-val.g { color:#1E8A55; }
 .spill-val.a { color:#B87200; }
 .spill-val.r { color:#D31A2B; }
+.spill-val.b { color:#006EAF; }
 .spill-lbl { font-size:8px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(0,73,144,0.5); margin-top:2px; }
 
 /* ── BODY ── */
@@ -200,6 +201,7 @@ body.tv-mode .tv-btn { display:none; }
       <div class="spill"><div class="spill-val g" id="s-ok">—</div><div class="spill-lbl">On Target</div></div>
       <div class="spill"><div class="spill-val a" id="s-warn">—</div><div class="spill-lbl">Monitor</div></div>
       <div class="spill"><div class="spill-val r" id="s-bad">—</div><div class="spill-lbl">Attention</div></div>
+      <div class="spill"><div class="spill-val b" id="s-info">—</div><div class="spill-lbl">Reference</div></div>
     </div>
     <div class="hdr-div"></div>
     <div class="timer-bar"><div class="timer-fill" id="tFill"></div></div>
@@ -350,14 +352,14 @@ function sparkline(vals, st) {
 
 function renderIndex(data) {
   allData = data;
-  var ok=0,warn=0,bad=0,period='';
+  var ok=0,warn=0,bad=0,info=0,period='';
   ['g-sp','g-q','g-o'].forEach(function(id){ document.getElementById(id).innerHTML=''; });
 
   KPI_CFG.forEach(function(c) {
     var kpi=data[c.row]||{};
     var L=latest(kpi), tgt=pv(kpi['Target']), unit=kpi['Unit']||'';
     var st=status(c.row,L.v,tgt);
-    if(st==='ok') ok++; else if(st==='warn') warn++; else if(st==='bad') bad++;
+    if(st==='ok') ok++; else if(st==='warn') warn++; else if(st==='bad') bad++; else info++;
     if(L.m&&!period) period=L.m;
 
     var raw=L.m?(kpi[L.m]||'—'):'—';
@@ -384,6 +386,7 @@ function renderIndex(data) {
   var s=document.getElementById('s-ok');   if(s) s.textContent=ok;
   var w=document.getElementById('s-warn'); if(w) w.textContent=warn;
   var b=document.getElementById('s-bad');  if(b) b.textContent=bad;
+  var i=document.getElementById('s-info'); if(i) i.textContent=info;
 
   if(period) {
     var mth=currentLang==='th'?(MTH[period]||period):period;
